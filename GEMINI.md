@@ -10,4 +10,5 @@
 
 - apps/popup: Popup app
 - apps/background: Background app (Right Click Context Menu)
+- apps/manifest: Manifest and icons for the chrome extension packaging
 - packages/shared: Shared code
