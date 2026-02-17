@@ -2,11 +2,15 @@
 export interface Config {
     from: string;
     to: string;
+    llm: string;
+    language: string;
 }
 
 const defaultConfig: Config = {
     from: 'en',
-    to: 'zh-CN'
+    to: 'zh-CN',
+    llm: 'perplexity',
+    language: 'en'
 };
 
 export const getConfig = (): Promise<Config> => {
