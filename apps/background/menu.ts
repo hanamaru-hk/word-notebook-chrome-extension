@@ -1,4 +1,4 @@
-import { getConfig, saveVocab } from "@/packages/shared/store";
+import { getConfig } from "@/packages/config";
 
 export const createMenu = () => {
     chrome.contextMenus.create({
@@ -18,7 +18,7 @@ export const addMenuEventListeners = () => {
 
             const url = await new Promise(resolve => chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => resolve(tabs[0] ? tabs[0].url : tabs[0])));
 
-            saveVocab(null, text, config.from, config.to, url);
+            // saveVocab(null, text, config.from, config.to, url);
 
             chrome.tabs.create(
                 {
