@@ -1,0 +1,23 @@
+{
+    "name": "i18n",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "scripts": {
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+    },
+    "dependencies": {
+        "i18next": "^23.7.11",
+        "react-i18next": "^14.0.0"
+    },
+    "devDependencies": {
+        "typescript": "latest",
+        "@types/react": "latest",
+        "@types/react-dom": "latest"
+    }
+}
