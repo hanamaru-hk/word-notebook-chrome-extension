@@ -2,9 +2,16 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "jsx": "react-jsx",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
         "types": [
             "chrome",
-            "node"
+            "node",
+            "react",
+            "react-dom",
+            "vite/client"
         ],
         "baseUrl": ".",
         "paths": {
