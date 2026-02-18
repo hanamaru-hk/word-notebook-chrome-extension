@@ -53,9 +53,7 @@ export function Settings() {
                 value={openInNewTab}
                 onChange={handleNewTabChange}
             />
-            <Text mt="md" size="sm" c="dimmed">
-                {t('app.settings.language.current', { lng: i18n.language })}
-            </Text>
+
         </Container>
     );
 }
