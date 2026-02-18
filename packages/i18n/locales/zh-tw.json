@@ -13,6 +13,12 @@
                 "label": "語言",
                 "placeholder": "請選擇",
                 "current": "目前語言: {{lng}}"
+            },
+            "new_tab": {
+                "label": "右鍵點擊高亮的單字後，在新分頁開啟",
+                "placeholder": "請選擇",
+                "yes": "是",
+                "no": "否"
             }
         },
         "vocabulary": {

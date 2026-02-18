@@ -13,6 +13,12 @@
                 "label": "Language",
                 "placeholder": "Pick one",
                 "current": "Current Language: {{lng}}"
+            },
+            "new_tab": {
+                "label": "Open in New Tab after right click the highlighted text",
+                "placeholder": "Pick one",
+                "yes": "Yes",
+                "no": "No"
             }
         },
         "vocabulary": {

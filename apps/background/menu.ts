@@ -1,3 +1,4 @@
+import { getConfig } from '@/packages/config';
 import { addVocabulary } from '@repo/database';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -29,12 +30,15 @@ export const addMenuEventListeners = (i18n: any) => {
                 });
             }
 
-            chrome.tabs.create(
-                {
-                    url: `https://www.perplexity.ai/search/new?q=${encodeURIComponent(text || '')}`
-                },
-                () => { }
-            );
+            const config = await getConfig();
+            if (config.newTab) {
+                chrome.tabs.create(
+                    {
+                        url: `https://www.perplexity.ai/search/new?q=${encodeURIComponent(text || '')}`
+                    },
+                    () => { }
+                );
+            }
         }
     );
 
