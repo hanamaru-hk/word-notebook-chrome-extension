@@ -12,6 +12,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "build:extension": "node scripts/bundle-extension.js",
+    "pack:extension": "npm run build:extension && node scripts/pack-extension.js",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
