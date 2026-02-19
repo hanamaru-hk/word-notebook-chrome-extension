@@ -46,7 +46,8 @@
         },
         "common": {
             "menu": "選單",
-            "context_menu": "查詢 \"%s\""
+            "context_menu_record": "記錄 \"%s\"",
+            "context_menu_lookup": "記錄並查詢 \"%s\""
         },
         "to": "網址"
     }

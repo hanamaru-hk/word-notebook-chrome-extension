@@ -46,7 +46,8 @@
         },
         "common": {
             "menu": "Menu",
-            "context_menu": "Check \"%s\""
+            "context_menu_record": "Record \"%s\"",
+            "context_menu_lookup": "Record and lookup \"%s\""
         },
         "to": "url"
     }

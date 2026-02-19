@@ -1,20 +1,25 @@
-import { getConfig } from '@/packages/config';
+import { getConfig, llmLink } from '@repo/config';
 import { addWord } from '@repo/database';
 import { v4 as uuidv4 } from 'uuid';
+import { i18n } from '@repo/i18n';
+
+type i18nType = typeof i18n;
+
+const MENU_ID = 'record_and_lookup';
 
 export const createMenu = (title: string) => {
     chrome.contextMenus.create({
         type: 'normal',
         contexts: ['selection'],
-        title: title,
-        id: 'vocabulary-revision-lite'
+        title,
+        id: MENU_ID
     });
 };
 
-export const addMenuEventListeners = (i18n: any) => {
+export const addMenuEventListeners = (i18n: i18nType) => {
     chrome.contextMenus.onClicked.addListener(
         async (info) => {
-            if (info.menuItemId !== 'vocabulary-revision-lite') {
+            if (info.menuItemId !== MENU_ID) {
                 return;
             }
             const text = info.selectionText;
@@ -31,10 +36,12 @@ export const addMenuEventListeners = (i18n: any) => {
             }
 
             const config = await getConfig();
+
+
             if (config.newTab) {
                 chrome.tabs.create(
                     {
-                        url: `https://www.perplexity.ai/search/new?q=${encodeURIComponent(text || '')}`
+                        url: `${llmLink[config.llm]}${encodeURIComponent(text || '')}`
                     },
                     () => { }
                 );
@@ -44,11 +51,14 @@ export const addMenuEventListeners = (i18n: any) => {
 
     chrome.storage.onChanged.addListener((changes, areaName) => {
         if (areaName === 'local' && changes.config) {
-            const newLanguage = changes.config.newValue.language;
-            if (newLanguage && newLanguage !== i18n.language) {
-                i18n.changeLanguage(newLanguage).then(() => {
-                    chrome.contextMenus.update('vocabulary-revision-lite', {
-                        title: i18n.t('app.common.context_menu')
+            const languageChanged = changes.config.newValue.language && changes.config.newValue.language !== i18n.language
+            const newTabChanged = changes.config.newValue.newTab !== changes.config.oldValue.newTab
+            if (languageChanged || newTabChanged) {
+                i18n.changeLanguage(changes.config.newValue.language).then(() => {
+                    chrome.contextMenus.update(MENU_ID, {
+                        title: changes.config.newValue.newTab ?
+                            i18n.t('app.common.context_menu_lookup') :
+                            i18n.t('app.common.context_menu_record')
                     })
                 });
             }

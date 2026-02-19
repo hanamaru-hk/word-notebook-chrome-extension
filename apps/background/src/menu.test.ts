@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMenu, addMenuEventListeners } from '../menu';
+import { i18n } from '@repo/i18n';
+
+const MENU_ID = 'record_and_lookup';
+/** Cast mock to full i18n type so we don't need to change menu.ts. */
+const asI18n = (m: { language: string; changeLanguage: ReturnType<typeof vi.fn>; t: ReturnType<typeof vi.fn> }) =>
+    m as unknown as typeof i18n;
 
 beforeEach(() => {
     vi.clearAllMocks();
@@ -14,7 +20,7 @@ describe('createMenu', () => {
             type: 'normal',
             contexts: ['selection'],
             title: 'Look up word',
-            id: 'vocabulary-revision-lite',
+            id: MENU_ID,
         });
     });
 });
@@ -22,14 +28,14 @@ describe('createMenu', () => {
 describe('addMenuEventListeners', () => {
     it('registers a context menu click listener', () => {
         const i18nMock = { language: 'en', changeLanguage: vi.fn(), t: vi.fn() };
-        addMenuEventListeners(i18nMock);
+        addMenuEventListeners(asI18n(i18nMock));
 
         expect(chrome.contextMenus.onClicked.addListener).toHaveBeenCalledOnce();
     });
 
     it('registers a storage change listener', () => {
         const i18nMock = { language: 'en', changeLanguage: vi.fn(), t: vi.fn() };
-        addMenuEventListeners(i18nMock);
+        addMenuEventListeners(asI18n(i18nMock));
 
         expect(chrome.storage.onChanged.addListener).toHaveBeenCalledOnce();
     });
@@ -40,21 +46,16 @@ describe('addMenuEventListeners', () => {
             changeLanguage: vi.fn().mockResolvedValue(undefined),
             t: vi.fn().mockReturnValue('查詞'),
         };
+        addMenuEventListeners(asI18n(i18nMock));
 
-        addMenuEventListeners(i18nMock);
-
-        // Get the storage change listener that was registered
         const storageListener = vi.mocked(chrome.storage.onChanged.addListener).mock.calls[0][0] as Function;
-
-        // Simulate a language change in storage
         storageListener({ config: { newValue: { language: 'zh-HK' } } }, 'local');
 
-        // Wait for the async changeLanguage to resolve
         await vi.waitFor(() => {
             expect(i18nMock.changeLanguage).toHaveBeenCalledWith('zh-HK');
         });
         await vi.waitFor(() => {
-            expect(chrome.contextMenus.update).toHaveBeenCalledWith('vocabulary-revision-lite', {
+            expect(chrome.contextMenus.update).toHaveBeenCalledWith(MENU_ID, {
                 title: '查詞',
             });
         });
