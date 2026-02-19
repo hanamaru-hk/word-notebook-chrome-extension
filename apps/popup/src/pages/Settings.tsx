@@ -1,4 +1,4 @@
-import { Container, Title, Select, Button, Modal, Group, Text } from '@mantine/core';
+import { Container, Title, Select, Button, Modal, Group, Text, ScrollArea } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,12 +16,14 @@ export function Settings() {
     const navigate = useNavigate();
     const [llm, setLlm] = useState<string>(LLMType.perplexity);
     const [openInNewTab, setOpenInNewTab] = useState<string>('true');
+    const [treatAs, setTreatAs] = useState<string>('false');
     const [resetModalOpen, setResetModalOpen] = useState(false);
 
     useEffect(() => {
         getConfig().then((config) => {
             setLlm(config.llm ?? LLMType.perplexity);
             setOpenInNewTab(config.newTab !== false ? 'true' : 'false');
+            setTreatAs(config.treatAs);
         });
     }, [i18n]);
 
@@ -46,6 +48,12 @@ export function Settings() {
         await setConfig({ ...config, newTab: isNewTab });
     };
 
+    const handleWordsAsJapaneseChange = async (value: string | null) => {
+        setTreatAs(value || '');
+        const config = await getConfig();
+        await setConfig({ ...config, treatAs: value || '' });
+    };
+
     const handleResetClick = () => setResetModalOpen(true);
 
     const handleResetConfirm = async () => {
@@ -58,7 +66,7 @@ export function Settings() {
     const handleResetCancel = () => setResetModalOpen(false);
 
     return (
-        <Container>
+        <ScrollArea>
             <Title order={2} mb="md">{t('app.settings.title')}</Title>
             <Select
                 label={t('app.settings.language.label')}
@@ -85,6 +93,17 @@ export function Settings() {
                 ]}
                 value={openInNewTab}
                 onChange={handleNewTabChange}
+            />
+            <Select
+                mt="md"
+                label={t('app.settings.treat_as.label')}
+                placeholder={t('app.settings.treat_as.placeholder')}
+                data={[
+                    { value: 'japanese', label: t('app.settings.treat_as.japanese') },
+                    { value: 'not_specified', label: t('app.settings.treat_as.not_specified') }
+                ]}
+                value={treatAs}
+                onChange={handleWordsAsJapaneseChange}
             />
 
             <Modal
@@ -113,6 +132,6 @@ export function Settings() {
             >
                 {t('app.settings.reset.button')}
             </Button>
-        </Container>
+        </ScrollArea>
     );
 }

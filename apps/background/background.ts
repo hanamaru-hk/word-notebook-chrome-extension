@@ -10,8 +10,8 @@ const init = async () => {
     createMenu(i18n.t('app.common.context_menu_lookup'));
 };
 
-chrome.runtime.onInstalled.addListener((_reason) => {
-    init();
+chrome.runtime.onInstalled.addListener(async (_reason) => {
+    await init();
+    addMenuEventListeners(i18n);
 });
 
-addMenuEventListeners(i18n);

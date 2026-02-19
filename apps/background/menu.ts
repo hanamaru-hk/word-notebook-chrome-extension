@@ -1,4 +1,4 @@
-import { getConfig, llmLink } from '@repo/config';
+import { getConfig, getLookupPrompt, llmLink } from '@repo/config';
 import { addWord } from '@repo/database';
 import { v4 as uuidv4 } from 'uuid';
 import { i18n } from '@repo/i18n';
@@ -36,12 +36,12 @@ export const addMenuEventListeners = (i18n: i18nType) => {
             }
 
             const config = await getConfig();
-
+            if (!config) return;
 
             if (config.newTab) {
                 chrome.tabs.create(
                     {
-                        url: `${llmLink[config.llm]}${encodeURIComponent(i18n.t('app.common.prompt_lookup', { word: text })) || ''} `
+                        url: `${llmLink[config.llm]}${encodeURIComponent(getLookupPrompt(i18n, text || '', true, config.treatAs)) || ''} `
                     },
                     () => { }
                 );
@@ -52,7 +52,7 @@ export const addMenuEventListeners = (i18n: i18nType) => {
     chrome.storage.onChanged.addListener((changes, areaName) => {
         if (areaName === 'local' && changes.config) {
             const languageChanged = changes.config.newValue.language && changes.config.newValue.language !== i18n.language
-            const newTabChanged = changes.config.newValue.newTab !== changes.config.oldValue.newTab
+            const newTabChanged = (changes.config.newValue?.newTab || false) !== (changes.config.oldValue?.newTab || false)
             if (languageChanged || newTabChanged) {
                 i18n.changeLanguage(changes.config.newValue.language).then(() => {
                     chrome.contextMenus.update(MENU_ID, {

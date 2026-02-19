@@ -33,6 +33,12 @@
                 "yes": "是",
                 "no": "否"
             },
+            "treat_as": {
+                "label": "將生字視為",
+                "placeholder": "請選擇",
+                "japanese": "日文",
+                "not_specified": "沒有指定"
+            },
             "reset": {
                 "button": "恢復預設設定",
                 "title": "重置設定？",
@@ -64,7 +70,9 @@
             "menu": "選單",
             "context_menu_record": "記錄 \"%s\"",
             "context_menu_lookup": "記錄並查詢 \"%s\"",
-            "prompt_lookup": "「{{word}}」的中文意思是什麼？請用這個字作一篇短例文"
+            "prompt_lookup": "「{{word}}」的中文意思是什麼？",
+            "prompt_focus": "若該詞屬於{{language}}，請以{{language}}詞彙進行解釋（即使它在其他語言中也存在），並附上讀音。如不是，請忽略。",
+            "prompt_detail": "用這個詞和它所屬的語言寫一篇例文。"
         },
         "to": "網址"
     }

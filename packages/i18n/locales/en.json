@@ -15,7 +15,7 @@
                 "current": "Current Language/當前語言: {{lng}}",
                 "name": {
                     "en": "English",
-                    "zh-HK": "Chinese (Traditional)"
+                    "zh-HK": "Traditional Chinese (Hong Kong)"
                 }
             },
             "llm": {
@@ -32,6 +32,12 @@
                 "placeholder": "Pick one",
                 "yes": "Yes",
                 "no": "No"
+            },
+            "treat_as": {
+                "label": "Treat the words as",
+                "placeholder": "Pick one",
+                "japanese": "Japanese",
+                "not_specified": "Not Specified"
             },
             "reset": {
                 "button": "Reset to Default",
@@ -64,7 +70,9 @@
             "menu": "Menu",
             "context_menu_record": "Record \"%s\"",
             "context_menu_lookup": "Record and lookup \"%s\"",
-            "prompt_lookup": "What is the meaning of {{word}} in english? Use it to write a short story also."
+            "prompt_lookup": "What does \"{{word}}\" mean in English?",
+            "prompt_focus": "If this word belongs to {{language}}, interpret it as {{language}} and include its reading, even if it exists in other languages. If not, then skip.",
+            "prompt_detail": "Use this word and its language to make a sample essay."
         },
         "to": "url"
     }

@@ -1,3 +1,7 @@
+import { i18n } from "@repo/i18n";
+
+type i18nType = typeof i18n
+
 export enum LLMType {
     perplexity = 'perplexity',
     googleAI = 'googleAI',
@@ -15,13 +19,16 @@ export interface Config {
     language: string;
     newTab: boolean;
     firstTime: boolean;
+    /** Treat highlighted words as Japanese (not Chinese) for lookup. */
+    treatAs: string;
 }
 
 export const defaultConfig: Config = {
     llm: LLMType.perplexity,
     language: 'en',
     newTab: true,
-    firstTime: true
+    firstTime: true,
+    treatAs: "japanese",
 };
 
 export const getConfig = (): Promise<Config> => {
@@ -43,3 +50,11 @@ export const setConfig = (config: Config): Promise<void> => {
         });
     });
 };
+
+export const getLookupPrompt = (i18n: i18nType, word: string, detail: boolean, focus: string) => {
+    const normalText = i18n.t('app.common.prompt_lookup', { word })
+    const focusText = focus === 'not_specified' ? '' : i18n.t('app.common.prompt_focus', { language: i18n.t(`app.settings.treat_as.${focus}`) })
+    const detailText = detail ? i18n.t('app.common.prompt_detail') : ''
+
+    return normalText + focusText + detailText
+}

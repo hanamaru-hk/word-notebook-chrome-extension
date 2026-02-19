@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { getVocabulary, deleteWord, Vocabulary as VocabularyType } from '@repo/database';
 import { useEffect, useState } from 'react';
-import { getConfig, llmLink } from '@repo/config';
+import { getConfig, llmLink, getLookupPrompt } from '@repo/config';
 
 
 
 export function Vocabulary() {
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const [vocabularies, setVocabularies] = useState<VocabularyType[]>([]);
     const [activePage, setPage] = useState(1);
     const itemsPerPage = 10;
@@ -32,7 +32,7 @@ export function Vocabulary() {
         const config = await getConfig();
         chrome.tabs.create(
             {
-                url: `${llmLink[config.llm]}${encodeURIComponent(t('app.common.prompt_lookup', { word })) || ''} `
+                url: `${llmLink[config.llm]}${encodeURIComponent(getLookupPrompt(i18n, word || '', true, config.treatAs)) || ''} `
             },
             () => { }
         );
