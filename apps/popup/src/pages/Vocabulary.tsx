@@ -6,7 +6,37 @@ import { getVocabulary, deleteWord, Vocabulary as VocabularyType } from '@repo/d
 import { useEffect, useState } from 'react';
 import { getConfig, llmLink, getLookupPrompt } from '@repo/config';
 
+const CSV_COLUMNS = ['id', 'word', 'url', 'createdAt', 'updatedAt'] as const;
 
+function escapeCsvCell(value: string): string {
+    if (/[",\n\r]/.test(value)) {
+        return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
+}
+
+function vocabularyToCsvRows(items: VocabularyType[]): string {
+    const header = CSV_COLUMNS.join(',');
+    const rows = items.map((item) =>
+        CSV_COLUMNS.map((col) => {
+            const raw = col === 'createdAt' || col === 'updatedAt'
+                ? new Date(item[col]).toISOString()
+                : String(item[col as keyof VocabularyType] ?? '');
+            return escapeCsvCell(raw);
+        }).join(',')
+    );
+    return [header, ...rows].join('\n');
+}
+
+function downloadCsv(csv: string, filename: string) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
 
 export function Vocabulary() {
     const { i18n, t } = useTranslation();
@@ -56,6 +86,13 @@ export function Vocabulary() {
         setPendingDeleteId(null);
     };
 
+    const handleExport = async () => {
+        const all = await getVocabulary();
+        const csv = vocabularyToCsvRows(all);
+        const filename = `word-notebook-export-${new Date().toISOString().slice(0, 10)}.csv`;
+        downloadCsv(csv, filename);
+    };
+
     const rows = paginatedVocabularies.map((vocab) => (
         <Table.Tr key={vocab.id}>
             <Table.Td>{vocab.word}</Table.Td>
@@ -88,6 +125,9 @@ export function Vocabulary() {
 
     return (
         <>
+            <Button variant="light" size="sm" mb="md" onClick={handleExport}>
+                {t('app.vocabulary.export')}
+            </Button>
             <Modal
                 opened={confirmOpen}
                 onClose={handleCancelDelete}
