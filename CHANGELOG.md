@@ -2,7 +2,14 @@
 
 ## Latest (Not yet packed)
 
+## 1.1.0
+
+- feat - add no data handling when no vocabulary.
+- feat - limited the length of the word being looked up
+- fix - the text of "chinese" in language selection
+
 ## 1.0.3
+
 - fixed - incorrect css reference in index.html
 
 ## 1.0.2
