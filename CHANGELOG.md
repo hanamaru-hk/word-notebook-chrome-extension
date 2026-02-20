@@ -2,6 +2,10 @@
 
 ## Latest (Not yet packed)
 
+## 1.1.1
+
+- fix - no reaction after clicking "record and lookup"
+
 ## 1.1.0
 
 - feat - add no data handling when no vocabulary.
