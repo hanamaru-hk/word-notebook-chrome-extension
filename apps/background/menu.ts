@@ -26,7 +26,7 @@ export const addMenuEventListeners = (i18n: i18nType) => {
             const text = info.selectionText;
             const url = await new Promise<string>(resolve => chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => resolve(tabs[0] ? (tabs[0].url || '') : '')));
 
-            const word = (text && text.trim() === '') ? text.substring(0, 20) : "";
+            const word = (text && text.trim() !== '') ? text.substring(0, 20) : "";
 
             if (word) {
                 await addWord({
