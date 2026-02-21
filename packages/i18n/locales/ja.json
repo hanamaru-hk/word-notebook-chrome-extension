@@ -2,7 +2,7 @@
     "from": "から",
     "to": "へ",
     "app": {
-        "title": "単語ノート",
+        "title": "みんなの単語ノート",
         "nav": {
             "vocabulary": "単語リスト",
             "settings": "設定"
