@@ -2,6 +2,7 @@
 
 ## Latest (Not yet packed)
 
+## 1.2.0
 - feat - add "add word" button
 - chore - change the "add word" button text, setting text
 - chore - modify the build script, rename and add "skiptest"
