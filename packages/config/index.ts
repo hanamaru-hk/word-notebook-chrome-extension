@@ -22,7 +22,7 @@ export interface Config {
 }
 
 export const defaultConfig: Config = {
-    llm: LLMType.perplexity,
+    llm: LLMType.googleAI,
     language: 'en',
     newTab: true,
     firstTime: true,

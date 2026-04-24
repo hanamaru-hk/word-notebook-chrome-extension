@@ -2,6 +2,10 @@
 
 ## Latest (Not yet packed)
 
+## 1.3.1
+
+- Update default AI as google AI
+
 ## 1.3.0
 
 - fix - "search" is not using correct i18n
